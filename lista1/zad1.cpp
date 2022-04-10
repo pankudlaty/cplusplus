@@ -41,7 +41,7 @@ void ArraySorting::showArray(){
     for (int i = 0; i < N; i++)
     {
         printf("%d \t", tab[i]);
-        printf("\n");
     }
+    
     
 }
