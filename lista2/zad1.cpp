@@ -1,6 +1,6 @@
 #include "stdlib.h"
-#include "stdio.h"
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -13,23 +13,41 @@ class Osoba {
         string getImie(){
             return imie;
         }
+        void setImie(string imie) {
+            this->imie = imie;
+        }
+        string getNazwisko(){
+            return nazwisko;
+        }
+        void setNazwisko(string nazwisko) {
+            this->nazwisko = nazwisko;
+        }
+        int getWiek() {
+            return wiek;
+        }
+        void setWiek(int wiek) {
+            this->wiek = wiek;
+        }
     public:
         void pokaz_dane();
         Osoba(string imie, string nazwisko, int wiek);
+        Osoba();
 };
-
 void Osoba::pokaz_dane() {
-    printf("\n");
-    printf("Imie: %s Nazwisko: %s Wiek: %d",imie, nazwisko, wiek);
-    printf("\n");
-}
+    cout << endl;
+    cout << 
+    "Imie:" << getImie() << " " << 
+    "Nazwisko:" << getNazwisko() << " " << 
+    "Wiek:" << getWiek() << endl;
+    cout << endl;
 
+}
 Osoba::Osoba(string imie, string nazwisko, int wiek) { 
-    imie = imie;
-    nazwisko = nazwisko;
-    wiek = wiek;
+    setImie(imie);
+    setNazwisko(nazwisko);
+    setWiek(wiek);
 }
-
+Osoba::Osoba(){}
 class Student : public Osoba {
     private:
         string grupa;
@@ -39,18 +57,20 @@ class Student : public Osoba {
         
 };
 void Student::pokaz_dane() {
-            printf("\n");
-            printf("Imie: %s Nazwisko: %s Wiek: %d Grupa: %s",imie, nazwisko, wiek, grupa);
-            printf("\n");
+    cout << endl;
+    cout << 
+    "Imie:" << getImie() << " " << 
+    "Nazwisko:" << getNazwisko() << " " << 
+    "Wiek:" << getWiek() << " " << 
+    "Grupa:" << grupa<< endl;
+    cout << endl;
 }
-
-Student::Student(string imie, string nazwisko, int wiek, string grupa) {
-    imie = imie;
-    nazwisko = nazwisko;
-    wiek = wiek;
-    grupa = grupa;
+Student::Student(string imie,string nazwisko, int wiek, string grupa) {
+    setImie(imie);
+    setNazwisko(nazwisko);
+    setWiek(wiek);
+    this->grupa = grupa;
 }
-
 class Pracownik : public Osoba
 {
 private:
@@ -60,24 +80,31 @@ public:
     Pracownik(string imie, string nazwisko, int wiek, string stanowisko);   
 };
 
+void Pracownik::pokaz_dane() {
+    cout << endl;
+    cout << 
+    "Imie:" << getImie() << " " << 
+    "Nazwisko:" << getNazwisko() << " " << 
+    "Wiek:" << getWiek() << " " << 
+    "Stanowisko:" << stanowisko << endl;
+    cout << endl;
+}
 
  Pracownik::Pracownik(string imie, string nazwisko, int wiek, string stanowisko) {
-    imie = imie;
-    nazwisko = nazwisko;
-    wiek = wiek;
-    stanowisko = stanowisko;
+    setImie(imie);
+    setNazwisko(nazwisko);
+    setWiek(wiek);
+    this->stanowisko = stanowisko;
 }
 
 int main() {
    
-    Osoba osobaTest("Paweł", "Kownacki", 32);
-    Student studentTest("Paweł", "Kownacki", 32, "Programowanie");
-    Pracownik pracownikTest("Paweł", "Kownacki", 32, "IT Administrator");
-
-    osobaTest.pokaz_dane();
+    Osoba osobaTest("Pawel", "Kownacki", 32);
+    Student studentTest("Rangar","Hafdansson",22, "Programowanie");
+    Pracownik pracownikTest("Jan", "Nowak", 34, "IT Administrator");
     studentTest.pokaz_dane();
+    osobaTest.pokaz_dane();
     pracownikTest.pokaz_dane();
-
 }
 
 
