@@ -108,12 +108,6 @@ private:
         return numer_indeksu;
     }
 public:
-   int podaj_numer_indeksu() {
-        int nr_indeksu;
-        cout << "Podaj nr indeksu: ";
-        cin >> nr_indeksu;
-        return nr_indeksu;
-    };
     StudentEdukacja(string imie, string nazwisko, int wiek, string grupa){
         setImie(imie);
         setNazwisko(nazwisko);
