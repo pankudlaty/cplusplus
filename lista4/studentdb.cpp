@@ -3,7 +3,7 @@
 #include <string.h>
 #include <strings.h>
 #include "stdlib.h"
-const int N = 5;
+const int N = 3;
 using namespace std;
 
 class StudentEdukacja {
@@ -45,6 +45,7 @@ class StudentEdukacja {
         void setNumerIndeksu(int numer_indeksu) {
             this->numer_indeksu = numer_indeksu;
         }
+    public:
         StudentEdukacja(string imie, string nazwisko, int wiek, 
         string grupa, int numer_indeksu){
             setImie(imie);
@@ -53,20 +54,43 @@ class StudentEdukacja {
             setGrupa(grupa);
             setNumerIndeksu(numer_indeksu);
         };
+        void showData() {
+                cout << getImie() 
+                << " "  << getNazwisko() 
+                << " "  << getWiek() 
+                << " "  << getGrupa()
+                << " "  << getNumerIndeksu()
+                << endl;
+        }
+        StudentEdukacja(){};
         
 };
 class StudentArray {
-    friend class Operator;
-    friend class ioOperator;
-    private:
+    public:
         StudentEdukacja studentDatabase[N];
+        StudentArray(){};
 };
 
 class Operator {
-    private:
-        void addStudent();
+    public:
+        void addStudent(StudentArray *studentDB){
+            for (int i=0;i<N;i++) {
+                string imie, nazwisko, grupa;
+                int wiek, numer_indesku;
+                cout << "Podaj dane studenta: ";
+                cin >> imie, nazwisko, wiek, grupa, numer_indesku; 
+                studentDB->studentDatabase[i] = StudentEdukacja(imie,nazwisko,wiek,grupa,numer_indesku);
+            }
+        };
         void deleteStudent();
         void sortStudentArray();
+        void listStudents(StudentArray *studentDB) {
+            for (int i = 0; i < N ; i++) {
+                studentDB->studentDatabase[i].showData();
+            }
+             
+            
+        }
 
 };
 
@@ -78,6 +102,10 @@ class ioOperator {
 };
 
 int main(){
+    StudentArray stuDB;
+    Operator newop;
+    newop.addStudent(&stuDB);
+    newop.listStudents(&stuDB);
     return 0;
 }
 
