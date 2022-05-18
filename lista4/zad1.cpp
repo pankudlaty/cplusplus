@@ -82,6 +82,25 @@ class StudentEdukacja {
 
 class ioOperator {
     public:
+        void czytaj_dane_z_klawiatury (StudentEdukacja &obj) {
+            string imie, nazwisko, grupa;
+            int nr_indeksu, wiek;
+            cout<<"Podaj nr indeksu: ";
+            cin>> nr_indeksu;
+            obj.setNumerIndeksu(nr_indeksu);
+            cout << "Podaj imie: ";
+            cin>>imie;
+            obj.setImie(imie);
+            cout << "Podaj nazwisko: ";
+            cin>>nazwisko;
+            obj.setNazwisko(nazwisko);
+            cout << "Podaj wiek: ";
+            cin>>wiek;
+            obj.setWiek(wiek);
+            cout << "Podaj grupe: ";
+            cin>>grupa;
+            obj.setGrupa(grupa);
+        }
         void zapisz_dane_do_pliku(StudentEdukacja & obj) {
             ofstream out("students.txt", ios::app);
             out<<obj;
@@ -95,8 +114,10 @@ class ioOperator {
 };
 
 int main() {
-    StudentEdukacja stu1("Paweł", "Kownacki", 32,"programowanie", 22314);
+    StudentEdukacja stu1;
     ioOperator ops;
+    ops.czytaj_dane_z_klawiatury(stu1);
+    stu1.showData();
     ops.zapisz_dane_do_pliku(stu1);
     StudentEdukacja student1;
     ops.czytaj_dane_z_pliku(student1);
