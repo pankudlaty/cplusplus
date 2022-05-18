@@ -108,6 +108,3 @@ int main(){
     newop.listStudents(&stuDB);
     return 0;
 }
-
-
-
