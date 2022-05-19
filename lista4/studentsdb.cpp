@@ -1,20 +1,21 @@
 #include "stdlib.h"
 #include <iostream>
 #include <string.h>
-#include <strings.h>
 #include "stdlib.h"
-const int N = 3;
+#include <list>
+#include <iterator>
+#include <fstream>
+
 using namespace std;
 
 class StudentEdukacja {
-    friend class StudentArray;
     private:
         string imie;
         string nazwisko;
         int wiek;
         string grupa;
         int numer_indeksu;
-    protected:
+    public:
         string getImie(){
             return imie;
         }
@@ -45,7 +46,6 @@ class StudentEdukacja {
         void setNumerIndeksu(int numer_indeksu) {
             this->numer_indeksu = numer_indeksu;
         }
-    public:
         StudentEdukacja(string imie, string nazwisko, int wiek, 
         string grupa, int numer_indeksu){
             setImie(imie);
@@ -54,57 +54,120 @@ class StudentEdukacja {
             setGrupa(grupa);
             setNumerIndeksu(numer_indeksu);
         };
-        void showData() {
-                cout << getImie() 
-                << " "  << getNazwisko() 
-                << " "  << getWiek() 
-                << " "  << getGrupa()
-                << " "  << getNumerIndeksu()
+        friend ostream& operator<<(ostream& os, const StudentEdukacja& student) {
+            os << student.numer_indeksu
+                << " "  << student.imie
+                << " "  << student.nazwisko
+                << " "  << student.wiek
+                << " "  << student.grupa
                 << endl;
+            return os;
+        }
+        friend istream& operator>> (istream &in, StudentEdukacja &student) {
+            in >> student.numer_indeksu;
+            in >> student.imie;
+            in >> student.nazwisko;
+            in >> student.wiek;
+            in >> student.grupa;
+            return in;
+        }
+        bool operator<(const StudentEdukacja &student) {
+            return (numer_indeksu < student.numer_indeksu);
+
+        }
+        bool operator==(const StudentEdukacja &student) {
+            return (numer_indeksu == student.numer_indeksu);
+        }
+        bool operator!=(const StudentEdukacja &student) {
+            return !operator==(student);
         }
         StudentEdukacja(){};
         
 };
 class StudentArray {
     public:
-        StudentEdukacja studentDatabase[N];
+        list<StudentEdukacja> studentDatabase;
         StudentArray(){};
 };
 
 class Operator {
     public:
         void addStudent(StudentArray *studentDB){
-            for (int i=0;i<N;i++) {
+            for (int i=0;i<3;i++) {
                 string imie, nazwisko, grupa;
                 int wiek, numer_indesku;
-                cout << "Podaj dane studenta: ";
-                cin >> imie, nazwisko, wiek, grupa, numer_indesku; 
-                studentDB->studentDatabase[i] = StudentEdukacja(imie,nazwisko,wiek,grupa,numer_indesku);
+                cout << "Podaj nr indeksu: ";
+                cin >> numer_indesku;
+                cout << "Podaj imie: ";
+                cin >> imie;
+                cout << "Podaj nazwisko: "; 
+                cin >> nazwisko;
+                cout << "Podaj wiek: "; 
+                cin >> wiek; 
+                cout << "Podaj grupe: ";
+                cin >> grupa; 
+                studentDB->studentDatabase.push_back(StudentEdukacja(imie,nazwisko,wiek,grupa,numer_indesku));
             }
         };
-        void deleteStudent();
-        void sortStudentArray();
-        void listStudents(StudentArray *studentDB) {
-            for (int i = 0; i < N ; i++) {
-                studentDB->studentDatabase[i].showData();
+        void deleteStudent(StudentArray *studentDB) {
+            int nr_indeksu;
+            cout << "Podaj nr indeksu studenta, który ma zostać usunięty z listy: ";
+            cin >> nr_indeksu;
+            list<StudentEdukacja>::iterator i;
+            for(auto i=studentDB->studentDatabase.begin(); i!=studentDB->studentDatabase.end();) {
+                if((*i).getNumerIndeksu() == nr_indeksu) {
+                    i = studentDB->studentDatabase.erase(i);
+                } else {
+                    i++;
+                }
             }
-             
-            
+        }
+        void sortStudentArray(StudentArray *studentDB) {
+            studentDB->studentDatabase.sort();
+
+        };
+        void listStudents(StudentArray *studentDB) {
+            list<StudentEdukacja>::iterator it;
+            for(it = studentDB->studentDatabase.begin(); it != studentDB->studentDatabase.end(); ++it) {
+                cout << *it;
+            }
         }
 
 };
 
 class ioOperator {
-    private:
-    void writeFile();
-    void readFile();
-
+    public:
+    void writeFile(StudentArray *studentDB) {
+        ofstream out("students.txt");
+        list<StudentEdukacja>::iterator it;
+        for(it = studentDB->studentDatabase.begin(); it != studentDB->studentDatabase.end(); ++it) {
+            out << *it;
+        }
+        out.close();
+    }
+    void readFile(StudentArray *studentDB) {
+        ifstream in("students.txt");
+        while (!in.eof()) {
+        StudentEdukacja temp;
+        in >> temp;
+        studentDB->studentDatabase.push_back(temp);
+        }
+        studentDB->studentDatabase.pop_back(); //wyrzucenie pustej linii
+        in.close();
+        
+    }
 };
 
 int main(){
     StudentArray stuDB;
     Operator newop;
-    newop.addStudent(&stuDB);
+    ioOperator newioop;
+    //newop.addStudent(&stuDB);
+    newioop.readFile(&stuDB);
+    newop.sortStudentArray(&stuDB);
     newop.listStudents(&stuDB);
+    //newioop.writeFile(&stuDB);
+    //newop.deleteStudent(&stuDB);
+    //newop.listStudents(&stuDB);
     return 0;
 }
