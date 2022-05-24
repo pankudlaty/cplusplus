@@ -5,6 +5,7 @@
 #include <list>
 #include <iterator>
 #include <fstream>
+#include <iomanip>
 
 using namespace std;
 
@@ -84,16 +85,15 @@ class StudentEdukacja {
         StudentEdukacja(){};
         
 };
-class StudentArray {
+class StudentList {
     public:
         list<StudentEdukacja> studentDatabase;
-        StudentArray(){};
+        StudentList(){};
 };
 
 class Operator {
     public:
-        void addStudent(StudentArray *studentDB){
-            for (int i=0;i<3;i++) {
+        void addStudent(StudentList *studentDB){
                 string imie, nazwisko, grupa;
                 int wiek, numer_indesku;
                 cout << "Podaj nr indeksu: ";
@@ -107,9 +107,9 @@ class Operator {
                 cout << "Podaj grupe: ";
                 cin >> grupa; 
                 studentDB->studentDatabase.push_back(StudentEdukacja(imie,nazwisko,wiek,grupa,numer_indesku));
-            }
+            
         };
-        void deleteStudent(StudentArray *studentDB) {
+        void deleteStudent(StudentList *studentDB) {
             int nr_indeksu;
             cout << "Podaj nr indeksu studenta, który ma zostać usunięty z listy: ";
             cin >> nr_indeksu;
@@ -122,14 +122,16 @@ class Operator {
                 }
             }
         }
-        void sortStudentArray(StudentArray *studentDB) {
+        void sortStudentArray(StudentList *studentDB) {
             studentDB->studentDatabase.sort();
 
         };
-        void listStudents(StudentArray *studentDB) {
+        void listStudents(StudentList *studentDB) {
             list<StudentEdukacja>::iterator it;
+            cout << setw(10) << "Nr Indesku" << setw(10) << "Imię" << setw(15) << "Naziwsko" << setw(10) << "Wiek"  << "Grupa" << endl; 
             for(it = studentDB->studentDatabase.begin(); it != studentDB->studentDatabase.end(); ++it) {
-                cout << *it;
+                cout << left;
+                cout << setw(15) << it->getNumerIndeksu() << setw(11) << it->getImie() << it->getNazwisko() << it->getWiek() << it->getGrupa() << endl;
             }
         }
 
@@ -137,7 +139,7 @@ class Operator {
 
 class ioOperator {
     public:
-    void writeFile(StudentArray *studentDB) {
+    void writeFile(StudentList *studentDB) {
         ofstream out("students.txt");
         list<StudentEdukacja>::iterator it;
         for(it = studentDB->studentDatabase.begin(); it != studentDB->studentDatabase.end(); ++it) {
@@ -145,29 +147,55 @@ class ioOperator {
         }
         out.close();
     }
-    void readFile(StudentArray *studentDB) {
+    void readFile(StudentList *studentDB) {
         ifstream in("students.txt");
-        while (!in.eof()) {
-        StudentEdukacja temp;
-        in >> temp;
-        studentDB->studentDatabase.push_back(temp);
+        if(!in) {
+            cout << "Nie wczytano bazy danych z pliku, brak pliku bazy danych." << endl;
+        } else {
+            while (!in.eof()) {
+                StudentEdukacja temp;
+                in >> temp;
+                studentDB->studentDatabase.push_back(temp);
         }
-        studentDB->studentDatabase.pop_back(); //wyrzucenie pustej linii
-        in.close();
-        
+            studentDB->studentDatabase.pop_back(); //wyrzucenie pustej linii
+            in.close();
+            cout << "Pomyślnie wczytano plik z bazą danych" << endl;
+        }
     }
 };
 
 int main(){
-    StudentArray stuDB;
+    StudentList stuDB;
     Operator newop;
     ioOperator newioop;
     //newop.addStudent(&stuDB);
     newioop.readFile(&stuDB);
-    newop.sortStudentArray(&stuDB);
-    newop.listStudents(&stuDB);
+    //newop.sortStudentArray(&stuDB);
+    //newop.listStudents(&stuDB);
     //newioop.writeFile(&stuDB);
     //newop.deleteStudent(&stuDB);
     //newop.listStudents(&stuDB);
-    return 0;
+    string option;
+    while (true) {
+        cout << 
+        "<L> wylistowanie nazwisk, imion i wieku wszystkich studentów posortowanych według nr indeksu" << endl <<
+        "<D> dodanie nowego studenta oraz wprowadzenie wszystkich cech go opisujących" << endl <<
+        "<U> usunięcie studenta" << endl <<
+        "<K> zakończenie programu i zapisanie bazy studentów do pliku" << endl;
+        cout << "Podaj jedną z powyższych czynności: ";
+        cin >> option;
+        if (option == "K" || option == "k") {
+            newioop.writeFile(&stuDB);
+            return 0;
+        } else if (option == "L" || option == "l") {
+            newop.sortStudentArray(&stuDB);
+            newop.listStudents(&stuDB);
+        } else if (option == "D" || option == "d") {
+            newop.addStudent(&stuDB);
+        } else if (option == "U" || option == "u") {
+            newop.deleteStudent(&stuDB);
+        } else {
+            cout << "Proszę podać jedną z dostępnych opcji." << endl;
+        }
+    }
 }
