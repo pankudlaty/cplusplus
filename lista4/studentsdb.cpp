@@ -6,13 +6,7 @@ int main(){
     StudentList stuDB;
     Operator newop;
     ioOperator newioop;
-    //newop.addStudent(&stuDB);
     newioop.readFile(&stuDB);
-    //newop.sortStudentArray(&stuDB);
-    //newop.listStudents(&stuDB);
-    //newioop.writeFile(&stuDB);
-    //newop.deleteStudent(&stuDB);
-    //newop.listStudents(&stuDB);
     string option;
     while (true) {
         cout << 
