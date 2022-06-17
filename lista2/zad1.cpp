@@ -74,12 +74,6 @@ void Student::pokaz_dane() {
     "Grupa:" << grupa<< endl;
     cout << endl;
 }
-//Student::Student(string imie,string nazwisko, int wiek, string grupa) {
-//    setImie(imie);
-//    setNazwisko(nazwisko);
-//    setWiek(wiek);
-//    this->grupa = grupa;
-//}
 class Pracownik : public Osoba
 {
 private:
@@ -103,7 +97,6 @@ public:
             cin >> this->stanowisko;
     };
 };
-
 void Pracownik::pokaz_dane() {
     cout << endl;
     cout << 
@@ -113,13 +106,6 @@ void Pracownik::pokaz_dane() {
     "Stanowisko:" << stanowisko << endl;
     cout << endl;
 }
-
-// Pracownik::Pracownik(string imie, string nazwisko, int wiek, string stanowisko) {
-//    setImie(imie);
-//    setNazwisko(nazwisko);
-//    setWiek(wiek);
-//    this->stanowisko = stanowisko;
-//}
 int main() {
    
     Student studentTest;
