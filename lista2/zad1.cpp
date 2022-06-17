@@ -47,7 +47,6 @@ class Student : public Osoba {
         string grupa;
     public:
         void pokaz_dane();
-        //Student(string imie, string nazwisko, int wiek, string grupa);
         Student(){
             string imie, nazwisko;
             int wiek;
@@ -80,7 +79,6 @@ private:
     string stanowisko;
 public:
     void pokaz_dane();
-    //Pracownik(string imie, string nazwisko, int wiek, string stanowisko);   
     Pracownik(){
             string imie, nazwisko;
             int wiek;
