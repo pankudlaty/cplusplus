@@ -30,7 +30,6 @@ class Osoba {
         }
     public:
         void pokaz_dane();
-        Osoba(string imie, string nazwisko, int wiek);
         Osoba();
 };
 void Osoba::pokaz_dane() {
@@ -42,18 +41,28 @@ void Osoba::pokaz_dane() {
     cout << endl;
 
 }
-Osoba::Osoba(string imie, string nazwisko, int wiek) { 
-    setImie(imie);
-    setNazwisko(nazwisko);
-    setWiek(wiek);
-}
 Osoba::Osoba(){}
 class Student : public Osoba {
     private:
         string grupa;
     public:
         void pokaz_dane();
-        Student(string imie, string nazwisko, int wiek, string grupa);
+        //Student(string imie, string nazwisko, int wiek, string grupa);
+        Student(){
+            string imie, nazwisko;
+            int wiek;
+            cout << "Podaj imie: ";
+            cin >> imie;
+            setImie(imie);
+            cout << "Podaj nazwisko: ";
+            cin >> nazwisko;
+            setNazwisko(nazwisko);
+            cout << "Podaj wiek: ";
+            cin >> wiek;
+            setWiek(wiek);
+            cout << "Podaj grupe: ";
+            cin >> this->grupa;
+        };
         
 };
 void Student::pokaz_dane() {
@@ -65,19 +74,34 @@ void Student::pokaz_dane() {
     "Grupa:" << grupa<< endl;
     cout << endl;
 }
-Student::Student(string imie,string nazwisko, int wiek, string grupa) {
-    setImie(imie);
-    setNazwisko(nazwisko);
-    setWiek(wiek);
-    this->grupa = grupa;
-}
+//Student::Student(string imie,string nazwisko, int wiek, string grupa) {
+//    setImie(imie);
+//    setNazwisko(nazwisko);
+//    setWiek(wiek);
+//    this->grupa = grupa;
+//}
 class Pracownik : public Osoba
 {
 private:
     string stanowisko;
 public:
     void pokaz_dane();
-    Pracownik(string imie, string nazwisko, int wiek, string stanowisko);   
+    //Pracownik(string imie, string nazwisko, int wiek, string stanowisko);   
+    Pracownik(){
+            string imie, nazwisko;
+            int wiek;
+            cout << "Podaj imie: ";
+            cin >> imie;
+            setImie(imie);
+            cout << "Podaj nazwisko: ";
+            cin >> nazwisko;
+            setNazwisko(nazwisko);
+            cout << "Podaj wiek: ";
+            cin >> wiek;
+            setWiek(wiek);
+            cout << "Podaj stanowisko: ";
+            cin >> this->stanowisko;
+    };
 };
 
 void Pracownik::pokaz_dane() {
@@ -90,20 +114,17 @@ void Pracownik::pokaz_dane() {
     cout << endl;
 }
 
- Pracownik::Pracownik(string imie, string nazwisko, int wiek, string stanowisko) {
-    setImie(imie);
-    setNazwisko(nazwisko);
-    setWiek(wiek);
-    this->stanowisko = stanowisko;
-}
-
+// Pracownik::Pracownik(string imie, string nazwisko, int wiek, string stanowisko) {
+//    setImie(imie);
+//    setNazwisko(nazwisko);
+//    setWiek(wiek);
+//    this->stanowisko = stanowisko;
+//}
 int main() {
    
-    Osoba osobaTest("Pawel", "Kownacki", 32);
-    Student studentTest("Rangar","Hafdansson",22, "Programowanie");
-    Pracownik pracownikTest("Jan", "Nowak", 34, "IT Administrator");
+    Student studentTest;
+    Pracownik pracownikTest;
     studentTest.pokaz_dane();
-    osobaTest.pokaz_dane();
     pracownikTest.pokaz_dane();
 }
 
